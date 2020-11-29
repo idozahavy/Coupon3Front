@@ -1,0 +1,80 @@
+<form #formInfo="ngForm">
+  <div class="modal-header">
+    <h4 class="modal-title" ngbPopover="You see, I show up on hover!" triggers="click:mouseleave" popoverTitle="Pop title">{{actionType}} Customer</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+		<div class="container">
+
+			<div class="input-group mb-2" *ngIf="actionType==='Update'">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Id</span>
+				</div>
+				<input name="id" class="form-control" [(ngModel)]="customer.id" disabled />
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">First Name</span>
+				</div>
+				<input name="firstName" class="form-control" [(ngModel)]="customer.firstName" #firstNameInfo="ngModel" required pattern=".{1,}" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="First name must be more than 1 letter long" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="firstNameInfo.invalid&&firstNameInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Last Name</span>
+				</div>
+				<input name="lastName" class="form-control" [(ngModel)]="customer.lastName" #lastNameInfo="ngModel" required pattern=".{1,}" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Last name must be more than 1 letter long" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="lastNameInfo.invalid&&lastNameInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Email</span>
+				</div>
+				<input name="email" class="form-control" [(ngModel)]="customer.email" #emailInfo="ngModel" required email type="email"/>
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Email must contain english letters and one at sign('@')" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body" 
+					*ngIf="emailInfo.invalid&&emailInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Password</span>
+				</div>
+				<input name="password" class="form-control" [(ngModel)]="customer.password" password type="password" #passInfo="ngModel" required pattern=".{4,16}"/>
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Password must be 4-16 letters long" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body" 
+					*ngIf="passInfo.invalid&&passInfo.touched">
+				</div>
+			</div>
+
+		</div>
+  </div>
+  <div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="modal.dismiss()" >Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close(customer)" [disabled]="formInfo.invalid||!formInfo.touched">{{actionType}}</button>
+  </div>
+</form>

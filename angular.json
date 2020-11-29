@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -119,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "coupon3"
+    }
+  },
+  "defaultProject": "coupon3",
+  "cli": {
+    "analytics": "e1f2ceac-96a7-4aa7-827b-0b6316dc0eca"
+  }
 }

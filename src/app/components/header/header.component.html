@@ -1,0 +1,43 @@
+<div>
+  <ul ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem>
+      <a
+        ngbNavLink
+        [routerLink]="['/company']"
+        routerLinkActive="router-link-active"
+        >Company</a
+      >
+      <ng-template ngbNavContent>Company1</ng-template>
+    </li>
+    <li ngbNavItem>
+      <a
+        ngbNavLink
+        [routerLink]="['/customer']"
+        routerLinkActive="router-link-active"
+        >Customer</a
+      >
+      <ng-template ngbNavContent>Customer2</ng-template>
+    </li>
+    <li ngbNavItem>
+      <a
+        ngbNavLink
+        [routerLink]="['/admin']"
+        routerLinkActive="router-link-active"
+        >Admin</a
+      >
+      <ng-template ngbNavContent>Admin3</ng-template>
+    </li>
+    <div>
+      <div *ngIf="loginService.loginToken; else loginTemplate">
+        <button type="button" class="btn btn-warning" (click)="logout()">
+          Logout
+        </button>
+      </div>
+      <ng-template #loginTemplate>
+        <button type="button" class="btn btn-warning" [routerLink]="['/login']">
+          Login
+        </button>
+      </ng-template>
+    </div>
+  </ul>
+</div>

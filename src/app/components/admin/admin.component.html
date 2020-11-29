@@ -1,0 +1,52 @@
+<h1>Hello Admin</h1>
+
+<h2>Companies</h2>
+<table class="table table-striped table-dark table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Actions 
+        <button class="btn btn-primary ml-2" (click)="companyAddButton()"><fa-icon [icon]="createIcon"></fa-icon></button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let company of companies">
+      <th scope="row">{{ company.id }}</th>
+      <td>{{ company.name }}</td>
+      <td>{{ company.email }}</td>
+      <td><button class="btn btn-danger ml-3" (click)="companyDeleteButton(company)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+        <button class="btn btn-warning ml-3" (click)="companyUpdateButton(company)"><fa-icon [icon]="updateIcon"></fa-icon></button></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Customers</h2>
+<table class="table table-striped table-dark table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Actions 
+        <button class="btn btn-primary ml-2" (click)="customerAddButton()"><fa-icon [icon]="createIcon"></fa-icon></button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <th scope="row">{{ customer.id }}</th>
+      <td>{{ customer.firstName }}</td>
+      <td>{{ customer.lastName }}</td>
+      <td>{{ customer.email }}</td>
+      <td><button class="btn btn-danger ml-3" (click)="customerDeleteButton(customer)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+        <button class="btn btn-warning ml-3" (click)="customerUpdateButton(customer)"><fa-icon [icon]="updateIcon"></fa-icon></button></td>
+    </tr>
+  </tbody>
+</table>
+
+<app-alert></app-alert>
+
