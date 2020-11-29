@@ -1,6 +1,6 @@
 # Coupon3Front
 
-[Backend repository](https://github.com/idozahavy/Coupon3Front)
+[Backend repository](https://github.com/idozahavy/Coupon3Back)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
