@@ -1,4 +1,6 @@
 export enum ActionType{
 	Create = "Create",
-	Update = "Update"
+	Update = "Update",
+	View = "View",
+	Edit = "Edit"
 }

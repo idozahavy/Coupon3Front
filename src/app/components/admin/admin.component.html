@@ -7,6 +7,7 @@
       <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
+      <th scope="col">Coupons</th>
       <th scope="col">Actions 
         <button class="btn btn-primary ml-2" (click)="companyAddButton()"><fa-icon [icon]="createIcon"></fa-icon></button>
       </th>
@@ -17,6 +18,14 @@
       <th scope="row">{{ company.id }}</th>
       <td>{{ company.name }}</td>
       <td>{{ company.email }}</td>
+      <td>
+        <div *ngIf="company.coupons&&company.coupons.length>0;else noCoupons">
+          <button class="btn btn-info" (click)="viewCoupons(company.coupons)">View Coupons</button>
+        </div>
+        <ng-template #noCoupons>
+          No Coupons
+        </ng-template>
+      </td>
       <td><button class="btn btn-danger ml-3" (click)="companyDeleteButton(company)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
         <button class="btn btn-warning ml-3" (click)="companyUpdateButton(company)"><fa-icon [icon]="updateIcon"></fa-icon></button></td>
     </tr>
@@ -31,6 +40,7 @@
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">Email</th>
+      <th scope="col">Coupons</th>
       <th scope="col">Actions 
         <button class="btn btn-primary ml-2" (click)="customerAddButton()"><fa-icon [icon]="createIcon"></fa-icon></button>
       </th>
@@ -42,6 +52,14 @@
       <td>{{ customer.firstName }}</td>
       <td>{{ customer.lastName }}</td>
       <td>{{ customer.email }}</td>
+      <td>
+        <div *ngIf="customer.coupons&&customer.coupons.length>0;else noCoupons">
+          <button class="btn btn-info" (click)="viewCoupons(customer.coupons)">View Coupons</button>
+        </div>
+        <ng-template #noCoupons>
+          No Coupons
+        </ng-template>
+      </td>
       <td><button class="btn btn-danger ml-3" (click)="customerDeleteButton(customer)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
         <button class="btn btn-warning ml-3" (click)="customerUpdateButton(customer)"><fa-icon [icon]="updateIcon"></fa-icon></button></td>
     </tr>

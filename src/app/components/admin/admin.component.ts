@@ -11,6 +11,8 @@ import { CompanyModalComponent } from '../modals/company-modal/company-modal.com
 import { faPlusSquare, faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Customer } from 'src/app/models/Customer';
 import { CustomerModalComponent } from '../modals/customer-modal/customer-modal.component';
+import { Coupon } from 'src/app/models/Coupon';
+import { CouponsModalComponent } from '../modals/coupons-modal/coupons-modal.component';
 
 @Component({
   selector: 'app-admin',
@@ -147,5 +149,12 @@ export class AdminComponent implements OnInit {
       })
     });
     customerModal.componentInstance.setCustomer(null, ActionType.Create);
+  }
+
+  ////////////////////////
+
+  viewCoupons(coupons: Coupon[]){
+    const couponsModal = this.modals.open(CouponsModalComponent,{windowClass:"modal-dialog-table",ariaLabelledBy: 'modal-basic-title'});
+    couponsModal.componentInstance.setCoupons(coupons,ActionType.View);
   }
 }

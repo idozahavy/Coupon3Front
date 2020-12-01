@@ -17,6 +17,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { CustomerModalComponent } from './components/modals/customer-modal/customer-modal.component';
 import { CompanyModalComponent } from './components/modals/company-modal/company-modal.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CouponsModalComponent } from './components/modals/coupons-modal/coupons-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LoginComponent,
     CustomerModalComponent,
     CompanyModalComponent,
+    CouponsModalComponent,
   ],
   imports: [
     BrowserModule,
