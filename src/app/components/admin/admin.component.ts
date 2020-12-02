@@ -27,8 +27,6 @@ export class AdminComponent implements OnInit {
   companies = new Array<Company>();
   customers = new Array<Customer>();
 
-  @ViewChild(CompanyModalComponent) companyModal:CompanyModalComponent;
-
   @ViewChild(AlertComponent)
   alert: AlertComponent;
 
@@ -155,6 +153,6 @@ export class AdminComponent implements OnInit {
 
   viewCoupons(coupons: Coupon[]){
     const couponsModal = this.modals.open(CouponsModalComponent,{windowClass:"modal-dialog-table",ariaLabelledBy: 'modal-basic-title'});
-    couponsModal.componentInstance.setCoupons(coupons,ActionType.View);
+    couponsModal.componentInstance.setCoupons(coupons);
   }
 }

@@ -1,0 +1,124 @@
+<form #formInfo="ngForm">
+  <div class="modal-header">
+    <h4 class="modal-title" ngbPopover="You see, I show up on hover!" triggers="click:mouseleave" popoverTitle="Pop title">{{actionType}} Coupon</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+		<div class="container">
+
+			<div class="input-group mb-2" *ngIf="actionType==='Update'">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Id</span>
+				</div>
+				<input name="id" class="form-control" [(ngModel)]="coupon.id" disabled />
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Title</span>
+				</div>
+				<input name="title" class="form-control" [(ngModel)]="coupon.title" #titleInfo="ngModel" required pattern=".{1,}" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Title must be more than 1 letter long" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="titleInfo.invalid&&titleInfo.touched">
+				</div>
+			</div>
+
+			<!-- TODO Category selection -->
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Category (need completion)</span>
+					<!-- TODO Category selection -->
+				</div>
+				<input name="category" class="form-control" [(ngModel)]="coupon.category" #lastNameInfo="ngModel" required pattern=".{1,}" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Last name must be more than 1 letter long" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="lastNameInfo.invalid&&lastNameInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Description</span>
+				</div>
+				<input name="description" class="form-control" [(ngModel)]="coupon.description" />
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Start Date</span>
+				</div>
+				<input type="date" name="startDate" class="form-control" [(ngModel)]="coupon.startDate" #startDateInfo="ngModel" required/>
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Must select start date" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body" 
+					*ngIf="startDateInfo.invalid&&startDateInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">End Date</span>
+				</div>
+				<input type="date" name="endDate" class="form-control" [(ngModel)]="coupon.endDate" #endDateInfo="ngModel" required/>
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Must select end date" 
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body" 
+					*ngIf="endDateInfo.invalid&&endDateInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Amount</span>
+				</div>
+				<input type="number" name="amount" class="form-control" [(ngModel)]="coupon.amount" #amountInfo="ngModel" required pattern="^[0-9]+$" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Amount must be greater than zero and without a decimal point"
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="amountInfo.invalid&&amountInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Price</span>
+				</div>
+				<input type="number" name="price" class="form-control" [(ngModel)]="coupon.price" #priceInfo="ngModel" required pattern="^[0-9]+($|.[0-9]{1,2}$)" />
+				<div class="magic12">
+					<img src="../../../../assets/icons/warning.png"
+					ngbPopover="Price must be greater than zero and may contain two decimal points"
+					popoverTitle="Input error" triggers="click:click"
+					placement="right" container="body"
+					*ngIf="priceInfo.invalid&&priceInfo.touched">
+				</div>
+			</div>
+
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Image</span>
+				</div>
+				<input name="image" class="form-control" [(ngModel)]="coupon.image" />
+			</div>
+
+		</div>
+  </div>
+  <div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="modal.dismiss()" >Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close(coupon)" [disabled]="formInfo.invalid||!formInfo.touched">{{actionType}}</button>
+  </div>
+</form>

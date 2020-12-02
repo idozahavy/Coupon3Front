@@ -29,8 +29,8 @@ export class LoginService {
     return ob;
   }
 
-  public check(): Observable<boolean> {
-    return this.server.get<boolean>(this.LOGIN_URL+"/check");
+  public check(): Observable<string> {
+    return this.server.get<string>(this.LOGIN_URL+"/check/"+this.loginToken.clientType);
   }
 
   public logout() : Observable<any> {

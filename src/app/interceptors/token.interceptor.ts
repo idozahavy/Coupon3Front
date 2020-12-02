@@ -24,7 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
           this.loginService.loginToken.token
         ),
       });
-    }
+    }    
     return next.handle(request);
   }
 }

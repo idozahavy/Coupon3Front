@@ -30,13 +30,18 @@ export class CompanyService {
   }
 
   getCoupons(param: {
-    category: Category;
-    maxPrice: number;
+    category?: Category;
+    maxPrice?: number;
   }): Observable<Coupon[]> {
     let params = new HttpParams();
     for (let key in param) {
-      params.set(key, param[key]);
+      if (param[key] != null) {
+        params = params.set(key, param[key]);
+      }
     }
-    return this.server.get<Coupon[]>(this.COMPANY_URL + '/coupons', { params });
+
+    return this.server.get<Coupon[]>(this.COMPANY_URL + '/coupons', {
+      params: params,
+    });
   }
 }

@@ -1,0 +1,7 @@
+::ng-deep .modal-dialog-table .modal-dialog {
+  display: table;
+}
+
+img {
+	max-width: 100px;
+}
