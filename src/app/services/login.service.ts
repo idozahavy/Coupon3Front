@@ -29,14 +29,17 @@ export class LoginService {
     return ob;
   }
 
-  public check(): Observable<string> {
-    return this.server.get<string>(this.LOGIN_URL+"/check/"+this.loginToken.clientType);
+  public check(): Observable<boolean> {
+    return this.server.get<boolean>(this.LOGIN_URL+"/check/"+this.loginToken.clientType);
   }
 
   public logout() : Observable<any> {
-    window.localStorage.removeItem("coupons3-tkn");
-    const ob = this.server.delete<any>(this.LOGIN_URL)
-    ob.subscribe(()=>{this.loginToken = null});
-    return ob;
+    if (this.loginToken){
+      window.localStorage.removeItem("coupons3-tkn");
+      const ob = this.server.delete<any>(this.LOGIN_URL)
+      ob.subscribe(()=>{this.loginToken = null});
+      return ob;
+    }
+    return new Observable((sub)=>{sub.next();sub.complete();});
   }
 }

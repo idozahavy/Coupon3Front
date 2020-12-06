@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Predicate, ViewChild } from '@angular/core';
 import { faPenSquare, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionType } from 'src/app/models/ActionType';
@@ -22,19 +22,13 @@ export class CompanyComponent implements OnInit {
   updateIcon = faPenSquare;
   deleteIcon = faTrash;
 
-  categories = [
-    { cat: '', name: '' },
-    { cat: Category.Food, name: 'Food' },
-    { cat: Category.Electricity, name: 'Electricity' },
-    { cat: Category.Restaurant, name: 'Restaurant' },
-    { cat: Category.Vacation, name: 'Vacation' },
-    { cat: Category.Technology, name: 'Technology' },
-    { cat: Category.Computers, name: 'Computers' },
-    { cat: Category.AI, name: 'AI' },
-  ];
   coupons: Coupon[];
+  allCoupons: Coupon[];
   maxPrice: number;
   category: Category;
+  categories = Object.keys(Category);
+
+  couponsFilters = new Array<{id: string, filterMethod: Predicate<Coupon>}>();
 
   @ViewChild(AlertComponent)
   alert: AlertComponent;
@@ -68,6 +62,7 @@ export class CompanyComponent implements OnInit {
         }
       );
     }
+    this.categories.unshift('');
   }
 
   ngOnInit(): void {
@@ -80,14 +75,56 @@ export class CompanyComponent implements OnInit {
         category: this.category,
         maxPrice: this.maxPrice,
       })
-      .subscribe(
+     .subscribe(
         (res) => {
+          this.allCoupons = res;
           this.coupons = res;
         },
         (err) => {
           console.log('423 - error getting coupons', err);
         }
-      );
+      )
+    ;
+  }
+
+  onCategoryChange(){
+    const cat = this.category;
+    this.couponsFilters = this.couponsFilters.filter(filter=>filter.id!=="category");
+    if (cat){
+      const newFilter = {
+        id:"category",
+        filterMethod: (coup: Coupon) => coup.category === cat
+        };
+      this.couponsFilters.push(newFilter);
+    }
+  }
+
+  onMaxPriceChange(){
+    const mxPr = this.maxPrice;
+    this.couponsFilters = this.couponsFilters.filter(filter => filter.id !== "maxPrice");
+    if (mxPr){
+      const newFilter = {
+        id:"maxPrice",
+        filterMethod: (coup) => coup.price <= mxPr
+        };
+      this.couponsFilters.push(newFilter);
+    }
+  }
+
+  filterCoupons(): void {
+    this.coupons = this.allCoupons;
+    this.couponsFilters.forEach((filter)=>{
+      this.coupons = this.coupons.filter(filter.filterMethod);
+    })
+  }
+
+  resetFilters(): void {
+    while(this.couponsFilters.length>0) {
+      this.couponsFilters.pop();
+    }
+    this.maxPrice = undefined;
+    this.category = undefined;
+    this.filterCoupons();
   }
 
   couponAddButton() {
@@ -95,11 +132,9 @@ export class CompanyComponent implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
     });
     couponModal.closed.subscribe((coupon) => {
-      this.service.addCoupon(coupon).subscribe(
-        () => {
+      this.service.addCoupon(coupon).subscribe(() => {
           this.getCoupons();
-        },
-        (err) => {
+        }, (err) => {
           console.log(err);
           this.alert.open('Coupon creation error', err.error);
         }
@@ -118,6 +153,15 @@ export class CompanyComponent implements OnInit {
     }
   }
   couponUpdateButton(coupon: Coupon){
-
+    const couponModal = this.modals.open(CouponModalComponent,{ariaLabelledBy: 'modal-basic-title'});
+    couponModal.closed.subscribe((editedCoupon) => {
+      this.service.updateCoupon(editedCoupon).subscribe(() => {
+        this.getCoupons();
+      }, (err) => {
+          this.alert.open("Coupon update error",err.error);
+        }
+      )
+    });
+    couponModal.componentInstance.setCoupon(coupon, ActionType.Edit);
   }
 }
