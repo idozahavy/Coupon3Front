@@ -19,6 +19,7 @@ import { CompanyModalComponent } from './components/modals/company-modal/company
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CouponsModalComponent } from './components/modals/coupons-modal/coupons-modal.component';
 import { CouponModalComponent } from './components/modals/coupon-modal/coupon-modal.component';
+import { CouponsComponent } from './components/coupons/coupons.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { CouponModalComponent } from './components/modals/coupon-modal/coupon-mo
     CompanyModalComponent,
     CouponsModalComponent,
     CouponModalComponent,
+    CouponsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,16 @@
+.link-active {
+	background-color: white;
+	color: rgb(42, 42, 42);
+	font-weight: 600;
+	font-size: 1.8em;
+	border-color: rgba(177, 176, 176, 0.794);
+}
+
+a {
+	font-size: 1.6rem;
+	color: rgb(231, 231, 231);
+}
+
+button {
+	font-size: 1.3em;
+}

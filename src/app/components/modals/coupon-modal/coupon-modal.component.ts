@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionType } from 'src/app/models/ActionType';
+import { Category } from 'src/app/models/Category';
 import { Coupon } from 'src/app/models/Coupon';
 
 @Component({
@@ -11,6 +12,7 @@ import { Coupon } from 'src/app/models/Coupon';
 export class CouponModalComponent implements OnInit {
   actionType: ActionType;
   coupon = new Coupon();
+  categories = Object.keys(Category);
 
   constructor(public modal: NgbActiveModal) {}
 

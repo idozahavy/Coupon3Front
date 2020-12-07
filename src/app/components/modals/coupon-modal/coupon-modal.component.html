@@ -29,19 +29,19 @@
 				</div>
 			</div>
 
-			<!-- TODO Category selection -->
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Category (need completion)</span>
-					<!-- TODO Category selection -->
+					<span class="input-group-text" id="">Category</span>
 				</div>
-				<input name="category" class="form-control" [(ngModel)]="coupon.category" #lastNameInfo="ngModel" required pattern=".{1,}" />
+				<select name="category" class="form-control" [(ngModel)]="coupon.category" required #categoryInfo="ngModel">
+					<option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+				</select>
 				<div class="magic12">
 					<img src="../../../../assets/icons/warning.png"
-					ngbPopover="Last name must be more than 1 letter long" 
+					ngbPopover="Must choose a category" 
 					popoverTitle="Input error" triggers="click:click"
 					placement="right" container="body"
-					*ngIf="lastNameInfo.invalid&&lastNameInfo.touched">
+					*ngIf="categoryInfo.invalid&&categoryInfo.touched">
 				</div>
 			</div>
 

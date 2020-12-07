@@ -34,12 +34,20 @@ export class LoginService {
   }
 
   public logout() : Observable<any> {
-    if (this.loginToken){
-      window.localStorage.removeItem("coupons3-tkn");
-      const ob = this.server.delete<any>(this.LOGIN_URL)
-      ob.subscribe(()=>{this.loginToken = null});
-      return ob;
-    }
-    return new Observable((sub)=>{sub.next();sub.complete();});
+    return new Observable<any>(
+      (sub) => {
+        const subNext = () => {sub.next();sub.complete;};
+        if (this.loginToken){
+          window.localStorage.removeItem("coupons3-tkn");
+          const ob = this.server.delete<any>(this.LOGIN_URL)
+          ob.subscribe(()=>{
+            this.loginToken = null;
+            subNext();
+          }, subNext);
+        } else {
+          subNext();
+        }
+      }
+    );
   }
 }

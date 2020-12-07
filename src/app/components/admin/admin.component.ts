@@ -13,6 +13,7 @@ import { Customer } from 'src/app/models/Customer';
 import { CustomerModalComponent } from '../modals/customer-modal/customer-modal.component';
 import { Coupon } from 'src/app/models/Coupon';
 import { CouponsModalComponent } from '../modals/coupons-modal/coupons-modal.component';
+import { ClientType } from 'src/app/models/ClientType';
 
 @Component({
   selector: 'app-admin',
@@ -31,26 +32,11 @@ export class AdminComponent implements OnInit {
   alert: AlertComponent;
 
   constructor(
-    login: LoginService,
-    public adminService: AdminService,
     siteRouter: SiteRouterService,
+    public adminService: AdminService,
     public modals: NgbModal
   ) {
-    if (!login.loginToken) {
-      console.log("no loginToken");
-      siteRouter.notLoggedIn();
-    } else {
-      if (login.loginToken.clientType !== 'Admin'){
-        console.log("not admin type");
-        siteRouter.noPermission();
-      }
-      login.check().subscribe((res) => {
-        if (!res) {
-          console.log("not valid token");
-          siteRouter.notLoggedIn();
-        }
-      });
-    }
+    siteRouter.checkLoginCorrect(ClientType.Admin);
   }
 
   ngOnInit(): void {

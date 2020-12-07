@@ -3,13 +3,12 @@ import { faPenSquare, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionType } from 'src/app/models/ActionType';
 import { Category } from 'src/app/models/Category';
+import { ClientType } from 'src/app/models/ClientType';
 import { Coupon } from 'src/app/models/Coupon';
 import { CompanyService } from 'src/app/services/company.service';
-import { LoginService } from 'src/app/services/login.service';
 import { SiteRouterService } from 'src/app/services/site-router.service';
 import { AlertComponent } from '../modals/alert/alert.component';
 import { CouponModalComponent } from '../modals/coupon-modal/coupon-modal.component';
-import { CouponsModalComponent } from '../modals/coupons-modal/coupons-modal.component';
 
 @Component({
   selector: 'app-company',
@@ -36,32 +35,9 @@ export class CompanyComponent implements OnInit {
   constructor(
     private service: CompanyService,
     private modals: NgbModal,
-    login: LoginService,
     siteRouter: SiteRouterService
   ) {
-    if (!login.loginToken) {
-      console.log('no loginToken');
-      siteRouter.notLoggedIn();
-    } else {
-      if (login.loginToken.clientType !== 'Company') {
-        console.log('not company type');
-        siteRouter.noPermission();
-      }
-      console.log('login check');
-
-      login.check().subscribe(
-        (res) => {
-          console.log('login check res', res);
-          if (!res) {
-            console.log('not valid token');
-            siteRouter.notLoggedIn();
-          }
-        },
-        (err) => {
-          siteRouter.notLoggedIn();
-        }
-      );
-    }
+    siteRouter.checkLoginCorrect(ClientType.Company);
     this.categories.unshift('');
   }
 
@@ -79,6 +55,7 @@ export class CompanyComponent implements OnInit {
         (res) => {
           this.allCoupons = res;
           this.coupons = res;
+          this.filterCoupons();
         },
         (err) => {
           console.log('423 - error getting coupons', err);
@@ -89,8 +66,8 @@ export class CompanyComponent implements OnInit {
 
   onCategoryChange(){
     const cat = this.category;
-    this.couponsFilters = this.couponsFilters.filter(filter=>filter.id!=="category");
-    if (cat){
+    this.couponsFilters = this.couponsFilters.filter(filter => filter.id!=="category");
+    if (cat) {
       const newFilter = {
         id:"category",
         filterMethod: (coup: Coupon) => coup.category === cat
@@ -99,13 +76,13 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  onMaxPriceChange(){
+  onMaxPriceChange() {
     const mxPr = this.maxPrice;
     this.couponsFilters = this.couponsFilters.filter(filter => filter.id !== "maxPrice");
-    if (mxPr){
+    if (mxPr) {
       const newFilter = {
         id:"maxPrice",
-        filterMethod: (coup) => coup.price <= mxPr
+        filterMethod: (coup: Coupon) => coup.price <= mxPr
         };
       this.couponsFilters.push(newFilter);
     }
@@ -146,7 +123,8 @@ export class CompanyComponent implements OnInit {
   couponDeleteButton(coupon: Coupon){
     if (confirm(`are you sure you want to delete coupon ${coupon.title}?`)) {
       this.service.deleteCoupon(coupon.id).subscribe(() => {
-        this.coupons = this.coupons.filter((coup) => coup.id !== coupon.id);
+        this.allCoupons = this.allCoupons.filter((coup) => coup.id !== coupon.id);
+        this.filterCoupons();
       }, (err) => {
         this.alert.open("Coupon deletion error",err.error);
       });
