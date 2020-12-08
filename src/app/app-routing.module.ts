@@ -24,7 +24,7 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'coupons/:page',
+    path: 'coupons',
     component: CouponsComponent
   }
 ];

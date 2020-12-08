@@ -7,3 +7,27 @@ img {
 .coupon-card {
 	width: 350px;
 }
+
+.transition {
+	transition: 1.5s;
+}
+
+.owned {
+	position: absolute;
+}
+
+.owned span {
+	position: absolute;
+	transform: rotate(-45deg);
+	font-size: 2rem;
+	top: 1.8rem;
+	left: 0.1rem;
+}
+
+.owned svg {
+	position:relative;
+	top:-2px;
+	left:-2px;
+	height: 150px;
+	width: 150px;
+}

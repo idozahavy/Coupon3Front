@@ -1,6 +1,38 @@
+<div class="container mb-3">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<h2>
+				Page {{page}}
+			</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container transition">
+	<div class="row justify-content-start">
+		<p class="col-auto mt-0 mb-0">
+			Coupon Count
+		</p>
+		<select class="h6" (change)="onCouponCountChange()" [(ngModel)]="couponRequestCount">
+			<option value="2">2</option>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+		</select>
+	</div>
+</div>
+
 <div class="container-fluid d-flex flex-wrap justify-content-sm-center align-items-stretch p-2">
   <div class="card rounded m-2 coupon-card" *ngFor="let coupon of coupons">
-    <img class="card-img-top" [src]="coupon.image" alt="Card image cap" />
+		<img class="card-img-top" [src]="coupon.image" alt="Card image cap" />
+		<div class="owned" *ngIf="customerHasCoupon(coupon)">
+			<svg>
+				<polygon points="0,75 0,140 140,0 75,0" rx="5" ry="5" fill="red" stroke="black" stroke-width="2" />
+			</svg>			
+			<span>
+				Owned
+			</span>
+		</div> 
     <div class="card-body">
 			<div class="row">
 				<h5 class="card-title col-8">{{ coupon.title }}</h5>
@@ -8,19 +40,53 @@
 			</div>
       <div *ngIf="compareDates(coupon.startDate,today)<0; else beforeStart">
 				<div *ngIf="compareDates(coupon.endDate,today)>=0; else outdated">
-					<p class="text-primary">Valid until {{ coupon.endDate | date: "shortDate" }}</p>
+					<p class="text-primary">Valid until {{ coupon.endDate | date: "mediumDate" }}</p>
 				</div>
 				<ng-template #outdated>
 					<p class="text-danger">Outdated Coupon</p>
 				</ng-template>
       </div>
       <ng-template #beforeStart>
-        <p class="text-warning">Valid from {{ coupon.startDate | date: "shortDate" }}</p>
+        <p class="text-warning">Valid from {{ coupon.startDate | date: "mediumDate" }}</p>
       </ng-template>
 			<p class="card-text">Description: {{ coupon.description }}</p>
-			<div *ngIf="isCustomer">
-				<button class="btn btn-primary" [disabled]="coupon.amount<=0">Purchase</button>
+			
+			<div class="row" *ngIf="isCustomer">
+				<div class="col-auto mr-auto">
+					<span>
+						<button class="btn btn-primary" [disabled]="coupon.amount<=0 || customerHasCoupon(coupon)" 
+							(click)="purchaseCoupon(coupon)">Purchase</button>
+					</span>
+				</div>
+				<span class="col-auto text-danger" *ngIf="coupon.amount<=0">Out of stock</span>
+				<div class="col-auto text-right alert p-2 mb-0" [ngClass]="coupon.amount>0?'alert-success':'alert-danger'">
+					<span class="text-dark">
+						{{coupon.price}} ILS
+					</span>
+				</div>
 			</div>
     </div>
   </div>
 </div>
+
+<div class="container">
+	<div class="row justify-content-between">
+		<div class="col-auto mr-auto">
+			<a [routerLink]="['/coupons']" [queryParams]="{p: page-1}" queryParamsHandling="merge" *ngIf="page>1">
+				<button class="btn btn-success" >
+					Back - Page {{ page - 1 }}
+				</button>
+			</a>
+		</div>
+		<div class="col-auto" *ngIf="page && couponRequestCount && totalAvailableCoupons &&
+		page * couponRequestCount < totalAvailableCoupons">
+			<a [routerLink]="['/coupons']" [queryParams]="{p: +page+1}" queryParamsHandling="merge">
+				<button class="btn btn-success">
+					Next - Page {{ + page + 1 }}
+				</button>
+			</a>
+		</div>
+	</div>
+</div>
+
+<app-alert></app-alert>
