@@ -1,7 +1,7 @@
-<ng-template #content let-modal>
+<div>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title" ngbPopover="You see, I show up on hover!" triggers="mouseenter:mouseleave" popoverTitle="Pop title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -11,6 +11,6 @@
 		</div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.close('Close Button click')">Close</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Close</button>
   </div>
-</ng-template>
+</div>

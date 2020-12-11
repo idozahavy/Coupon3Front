@@ -6,6 +6,11 @@
   <div class="collapse navbar-collapse" [ngClass]="isCollapsed?'show':''">
     <ul ngbNav class="mr-auto" [ngClass]="isToggleVisible()?(isCollapsed?'d-block':''):''">
       <li ngbNavItem>
+        <a ngbNavLink [routerLink]="['/']" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact:true}">
+          Home
+        </a>
+      </li>
+      <li ngbNavItem>
         <a ngbNavLink [routerLink]="['/coupons']" routerLinkActive="link-active">
           Coupons
         </a>

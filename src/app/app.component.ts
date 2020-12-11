@@ -5,8 +5,11 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
 import { AlertComponent } from './components/modals/alert/alert.component';
+import { CouponModalComponent } from './components/modals/coupon-modal/coupon-modal.component';
+import { LoadingComponent } from './components/modals/loading/loading.component';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +19,15 @@ import { AlertComponent } from './components/modals/alert/alert.component';
 export class AppComponent implements OnInit {
   title = 'coupon3';
 
-  @ViewChild(AlertComponent)
-  alert: AlertComponent;
-
-  constructor(router: Router, private route: ActivatedRoute) {
-    router.events
-      .pipe(filter((event: RouterEvent) => event instanceof NavigationEnd))
-      .subscribe((event: RouterEvent) => {
-        // console.log('eve', event);
-      });
+  constructor(private route: ActivatedRoute
+    ,modals :NgbModal) {
+    AlertComponent.initialize(modals);
   }
   ngOnInit(): void {
     this.route.queryParams
       .pipe(filter((params) => params.err))
       .subscribe((params) => {
-        this.alert.open(params.title, params.err);
+        AlertComponent.open(params.title, params.err);
       });
   }
 }

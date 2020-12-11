@@ -5,8 +5,13 @@ import { CompanyComponent } from './components/company/company.component';
 import { CouponsComponent } from './components/coupons/coupons.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { LoginComponent } from './components/login/login.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: WelcomeComponent
+  },
   {
     path: 'admin',
     component: AdminComponent,

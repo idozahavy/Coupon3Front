@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModalConfig, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-loading',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  boo: string;
+
+  constructor(gg : NgbActiveModal,hh : NgbModalConfig) {
+    console.log("hh",hh);
+    console.log("gg",gg);
+    
+   }
 
   ngOnInit(): void {
+    console.log("boo",this.boo);
+    
   }
 
 }

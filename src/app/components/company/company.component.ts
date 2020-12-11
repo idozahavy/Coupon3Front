@@ -58,7 +58,7 @@ export class CompanyComponent implements OnInit {
           this.filterCoupons();
         },
         (err) => {
-          console.log('423 - error getting coupons', err);
+          AlertComponent.open('error getting coupons', err);
         }
       )
     ;
@@ -113,7 +113,7 @@ export class CompanyComponent implements OnInit {
           this.getCoupons();
         }, (err) => {
           console.log(err);
-          this.alert.open('Coupon creation error', err.error);
+          AlertComponent.open('Coupon creation error', err.error);
         }
       );
     });
@@ -126,7 +126,7 @@ export class CompanyComponent implements OnInit {
         this.allCoupons = this.allCoupons.filter((coup) => coup.id !== coupon.id);
         this.filterCoupons();
       }, (err) => {
-        this.alert.open("Coupon deletion error",err.error);
+        AlertComponent.open("Coupon deletion error",err.error);
       });
     }
   }
@@ -136,7 +136,7 @@ export class CompanyComponent implements OnInit {
       this.service.updateCoupon(editedCoupon).subscribe(() => {
         this.getCoupons();
       }, (err) => {
-          this.alert.open("Coupon update error",err.error);
+        AlertComponent.open("Coupon update error",err.error);
         }
       )
     });

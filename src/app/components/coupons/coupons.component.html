@@ -24,10 +24,10 @@
 
 <div class="container-fluid d-flex flex-wrap justify-content-sm-center align-items-stretch p-2">
   <div class="card rounded m-2 coupon-card" *ngFor="let coupon of coupons">
-		<img class="card-img-top" [src]="coupon.image" alt="Card image cap" />
+		<img class="card-img-top" [src]="coupon.image" alt="Coupon image" />
 		<div class="owned" *ngIf="customerHasCoupon(coupon)">
 			<svg>
-				<polygon points="0,75 0,140 140,0 75,0" rx="5" ry="5" fill="red" stroke="black" stroke-width="2" />
+				<polygon points="0,75 0,150 150,0 75,0" rx="5" ry="5" fill="red" stroke="black" stroke-width="2" />
 			</svg>			
 			<span>
 				Owned
@@ -51,9 +51,9 @@
       </ng-template>
 			<p class="card-text">Description: {{ coupon.description }}</p>
 			
-			<div class="row" *ngIf="isCustomer">
+			<div class="row">
 				<div class="col-auto mr-auto">
-					<span>
+					<span *ngIf="isCustomer">
 						<button class="btn btn-primary" [disabled]="coupon.amount<=0 || customerHasCoupon(coupon)" 
 							(click)="purchaseCoupon(coupon)">Purchase</button>
 					</span>
@@ -88,5 +88,3 @@
 		</div>
 	</div>
 </div>
-
-<app-alert></app-alert>

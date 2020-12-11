@@ -12,6 +12,7 @@
 		<label for="inputState">Max Price</label>
 		<input type="number" class="form-control" [(ngModel)]="maxPrice" (change)="onMaxPriceChange()"/>
 	</div>
+	<!-- TODO button diet -->
 	<button class="btn btn-primary m-2" (click)="filterCoupons()">Filter</button>
 	<button class="btn btn-primary m-2" (click)="resetFilters()">Reset</button>
 </div>
@@ -51,6 +52,3 @@
 		</tr>
 	</tbody>
 </table>
-
-
-<app-alert></app-alert>

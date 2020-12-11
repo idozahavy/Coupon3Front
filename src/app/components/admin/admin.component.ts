@@ -62,7 +62,7 @@ export class AdminComponent implements OnInit {
       this.adminService.deleteCompany(company.id).subscribe(() => {
         this.companies = this.companies.filter((com) => com.id !== company.id);
       }, (err) => {
-        this.alert.open("Company deletion error",err.error);
+        AlertComponent.open("Company deletion error",err.error);
       });
     }
   }
@@ -74,7 +74,7 @@ export class AdminComponent implements OnInit {
         this.getCompanies();
       }, (err)=>{
         console.log(err);
-        this.alert.open("Company update error",err.error);
+        AlertComponent.open("Company update error",err.error);
       });
       console.log("updated company",company);
     });
@@ -89,7 +89,7 @@ export class AdminComponent implements OnInit {
         this.getCompanies();
       }, (err)=>{
         console.log(err);
-        this.alert.open("Company creation error",err.error);
+        AlertComponent.open("Company creation error",err.error);
       })
     });
     companyModal.componentInstance.setCompany(null, ActionType.Create);
@@ -102,7 +102,7 @@ export class AdminComponent implements OnInit {
       this.adminService.deleteCustomer(customer.id).subscribe(() => {
         this.customers = this.customers.filter((cus) => customer.id !== cus.id);
       }, (err) => {
-        this.alert.open("Customer deletion error",err.error);
+        AlertComponent.open("Customer deletion error",err.error);
       });
     }
   }
@@ -114,7 +114,7 @@ export class AdminComponent implements OnInit {
         this.getCustomers();
       }, (err)=>{
         console.log(err);
-        this.alert.open("Customer update error",err.error);
+        AlertComponent.open("Customer update error",err.error);
       });
       console.log("updated customer",customer);
     });
@@ -129,7 +129,7 @@ export class AdminComponent implements OnInit {
         this.getCustomers();
       }, (err)=>{
         console.log(err);
-        this.alert.open("Customer creation error",err.error);
+        AlertComponent.open("Customer creation error",err.error);
       })
     });
     customerModal.componentInstance.setCustomer(null, ActionType.Create);

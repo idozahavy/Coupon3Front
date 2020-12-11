@@ -21,6 +21,7 @@ import { CouponsModalComponent } from './components/modals/coupons-modal/coupons
 import { CouponModalComponent } from './components/modals/coupon-modal/coupon-modal.component';
 import { CouponsComponent } from './components/coupons/coupons.component';
 import { LoadingComponent } from './components/modals/loading/loading.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { LoadingComponent } from './components/modals/loading/loading.component'
     CouponModalComponent,
     CouponsComponent,
     LoadingComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

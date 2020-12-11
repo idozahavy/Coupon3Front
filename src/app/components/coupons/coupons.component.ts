@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientType } from 'src/app/models/ClientType';
@@ -23,50 +24,44 @@ export class CouponsComponent implements OnInit {
   totalAvailableCoupons: number;
   isCustomer: boolean;
 
-  @ViewChild(AlertComponent)
-  alert : AlertComponent;
-
   constructor(private route: ActivatedRoute, private router: Router, private customerService: CustomerService,
-     loginService: LoginService, couponsService: CouponsService) {
+     loginService: LoginService,private couponsService: CouponsService) {
     this.today = new Date();
     this.today.setHours(0, 0, 0, 0);
     couponsService.getCouponsCount().subscribe((totalCount)=>{
       this.totalAvailableCoupons = totalCount;
-    })
+    }, (err: HttpErrorResponse)=>{
+      AlertComponent.open("Coupons Error", "could not obtain total available coupons");      
+    });
     this.route.queryParams.subscribe(params => {
       this.page = Number(params.p);
       if (!this.page || this.page < 0){
         return router.navigate(['coupons'], {queryParams: {p:1}, queryParamsHandling:"merge"});
       }
-      const count = Number(params.c);
-      this.couponRequestCount = count || 5;
+      this.couponRequestCount = Number(params.c) || 5;
       if (this.couponRequestCount<1){
         return router.navigate(['coupons'], {queryParams: {c:null}, queryParamsHandling:"merge"});
       }
       if (this.couponRequestCount>20) {
         return router.navigate(['coupons'], {queryParams: {c:20}, queryParamsHandling:"merge"});
       }
-
-      couponsService.getCouponsPage(this.page, this.couponRequestCount).subscribe((coupons)=>{
-        if (coupons && coupons.length<1){
-          console.log("no coupons");
-          return this.router.navigate(['coupons'], {queryParams: {p:1}, queryParamsHandling:"merge"});
-        }
-        this.coupons = coupons;
-      }, (err)=>{
-        console.log("could not obtain coupons page",err);
-      })
+      this.injectCoupons();
     },(err)=>{
-      console.log("no page param found",err);
+      AlertComponent.open("no page param found",err);
     });
     if (loginService.loginToken && loginService.loginToken.clientType === ClientType.Customer){
       loginService.check().subscribe((res) => {
         this.isCustomer = res;
-        this.customerService.getDetails().subscribe((customer)=>{
-          this.customerCoupons = customer.coupons;
-        }, (err)=>{
-          this.alert.open("CustomerDetails Error", err.error.message);
-        })
+        if (res) {
+          this.customerService.getDetails().subscribe((customer)=>{
+            this.customerCoupons = customer.coupons;
+          }, (err)=>{
+            AlertComponent.open("CustomerDetails Error", err.error.message);
+          });
+        };
+      }, (err: HttpErrorResponse) => {
+        console.log("token invalid");
+        loginService.logout().subscribe(()=>{});
       });
     }
   }
@@ -76,6 +71,19 @@ export class CouponsComponent implements OnInit {
 
   onCouponCountChange() {
     this.router.navigate(['coupons'], {queryParams: {c:this.couponRequestCount}, queryParamsHandling:"merge"});
+  }
+
+  injectCoupons() {
+    this.couponsService.getCouponsPage(this.page, this.couponRequestCount).subscribe((coupons)=>{
+      if (coupons && coupons.length<1){
+        console.log("no coupons");
+        return this.router.navigate(['coupons'], {queryParams: {p:1}, queryParamsHandling:"merge"});
+      }
+      console.log("new coupons page "+this.page);
+      this.coupons = coupons;
+    }, (err)=>{
+      AlertComponent.open("could not obtain coupons page",err);
+    })
   }
 
   compareDates(date1: Date, date2: Date){
@@ -96,12 +104,13 @@ export class CouponsComponent implements OnInit {
     this.customerService.purchaseCoupon(coupon).subscribe(()=>{
       this.customerService.getDetails().subscribe((customer)=>{
         this.customerCoupons = customer.coupons;
+        this.injectCoupons();
       }, (err)=>{
-        this.alert.open("CustomerDetails Error", err.error.message);
+        AlertComponent.open("CustomerDetails Error", err.error.message);
       })
     }, (err) => {
       console.log("purchaseCoupon error", err);
-      this.alert.open('Purchase Error', err.error.message);
+      AlertComponent.open('Purchase Error', err.error.message);
     })
   }
 
