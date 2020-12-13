@@ -51,4 +51,13 @@ export class SiteRouterService {
       );
     }
   }
+
+  alreadyLoggedIn() {
+    this.router.navigate(['/'], {
+      queryParams: {
+        title: 'Login Error',
+        err: 'You are already logged in, please first log out to log in',
+      },
+    });
+  }
 }

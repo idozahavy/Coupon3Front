@@ -49,8 +49,8 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="formInfo.invalid">
+  <button type="submit" class="btn btn-primary mb-2" [disabled]="formInfo.invalid">
     Login
   </button>
-    <ngb-alert *ngIf="failMessage" type="danger">{{ failMessage }}</ngb-alert>
+  <ngb-alert *ngIf="failMessage" type="danger">{{ failMessage }}</ngb-alert>
 </form>

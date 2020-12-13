@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ClientType } from 'src/app/models/ClientType';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class HeaderComponent implements OnInit {
   isCollapsed: boolean = false;
+
+  ClientType = ClientType;
 
   @ViewChild('toggler')
   toggler: ElementRef;

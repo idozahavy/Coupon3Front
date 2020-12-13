@@ -15,21 +15,23 @@
           Coupons
         </a>
       </li>
-      <li ngbNavItem>
-        <a ngbNavLink [routerLink]="['/company']" routerLinkActive="link-active">
-          Company
-        </a>
-      </li>
-      <li ngbNavItem>
-        <a ngbNavLink [routerLink]="['/customer']" routerLinkActive="link-active">
-          Customer
-        </a>
-      </li>
-      <li ngbNavItem>
-        <a ngbNavLink [routerLink]="['/admin']" routerLinkActive="link-active">
-          Admin
-        </a>
-      </li>
+      <div *ngIf="loginService.loginToken">
+        <li ngbNavItem *ngIf="loginService.loginToken.clientType===ClientType.Company">
+          <a ngbNavLink [routerLink]="['/company']" routerLinkActive="link-active">
+            Company
+          </a>
+        </li>
+        <li ngbNavItem *ngIf="loginService.loginToken.clientType===ClientType.Customer">
+          <a ngbNavLink [routerLink]="['/customer']" routerLinkActive="link-active">
+            Customer
+          </a>
+        </li>
+        <li ngbNavItem *ngIf="loginService.loginToken.clientType===ClientType.Admin">
+          <a ngbNavLink [routerLink]="['/admin']" routerLinkActive="link-active">
+            Admin
+          </a>
+        </li>
+      </div>
     </ul>
     <div class="my-2 form-inline my-lg-0">
       <div *ngIf="loginService.loginToken; else loginTemplate">

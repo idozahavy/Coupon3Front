@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LoginCred } from 'src/app/models/LoginCred';
 import { LoginService } from 'src/app/services/login.service';
+import { SiteRouterService } from 'src/app/services/site-router.service';
 // import * as _ from 'lodash';
 
 @Component({
@@ -19,15 +20,10 @@ export class LoginComponent implements OnInit {
 
   failMessage: string;
 
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor(private loginService: LoginService, private router: Router, siteRouter: SiteRouterService) {
     if (loginService.loginToken) {
       console.log("logged in");
-      router.navigate(['/'], {
-        queryParams: {
-          title: 'Login Error',
-          err: 'You are already logged in, please first log out to log in',
-        },
-      });
+      siteRouter.alreadyLoggedIn();
     }
   }
 
