@@ -1,3 +1,7 @@
 img {
 	max-width: 100px;
 }
+
+.h-minc {
+	height: min-content ;
+}

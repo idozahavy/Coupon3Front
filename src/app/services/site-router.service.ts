@@ -26,22 +26,18 @@ export class SiteRouterService {
       });
     });
   }
+  
   checkLoginCorrect(clientType: ClientType) {
     if (!this.loginService.loginToken) {
-      console.log('no loginToken');
       this.notLoggedIn();
     } else {
       if (this.loginService.loginToken.clientType !== clientType) {
-        console.log(`not ${clientType} type`);
         this.noPermission();
       }
-      console.log('login check');
 
       this.loginService.check().subscribe(
         (res) => {
-          console.log('login check res', res);
           if (!res) {
-            console.log('not valid token');
             this.notLoggedIn();
           }
         },

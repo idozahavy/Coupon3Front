@@ -31,7 +31,8 @@ export class CouponsComponent implements OnInit {
     couponsService.getCouponsCount().subscribe((totalCount)=>{
       this.totalAvailableCoupons = totalCount;
     }, (err: HttpErrorResponse)=>{
-      AlertComponent.open("Coupons Error", "could not obtain total available coupons");      
+      console.error("Available Coupons Error", err);
+      AlertComponent.open("Available Coupons Error", err.error.message || err.message);      
     });
     this.route.queryParams.subscribe(params => {
       this.page = Number(params.p);
@@ -47,7 +48,8 @@ export class CouponsComponent implements OnInit {
       }
       this.injectCoupons();
     },(err)=>{
-      AlertComponent.open("no page param found",err);
+      console.error("page params error", err);
+      AlertComponent.open("no page param found",err.error.message || err.message);
     });
     if (loginService.loginToken && loginService.loginToken.clientType === ClientType.Customer){
       loginService.check().subscribe((res) => {
@@ -56,11 +58,11 @@ export class CouponsComponent implements OnInit {
           this.customerService.getDetails().subscribe((customer)=>{
             this.customerCoupons = customer.coupons;
           }, (err)=>{
-            AlertComponent.open("CustomerDetails Error", err.error.message);
+            console.error("CustomerDetails Error", err);
+            AlertComponent.open("CustomerDetails Error", err.error.message || err.message);
           });
         };
       }, (err: HttpErrorResponse) => {
-        console.log("token invalid");
         loginService.logout().subscribe(()=>{});
       });
     }
@@ -76,13 +78,12 @@ export class CouponsComponent implements OnInit {
   injectCoupons() {
     this.couponsService.getCouponsPage(this.page, this.couponRequestCount).subscribe((coupons)=>{
       if (coupons && coupons.length<1){
-        console.log("no coupons");
         return this.router.navigate(['coupons'], {queryParams: {p:1}, queryParamsHandling:"merge"});
       }
-      console.log("new coupons page "+this.page);
       this.coupons = coupons;
     }, (err)=>{
-      AlertComponent.open("could not obtain coupons page",err);
+      console.error("Copouns Page Error", err);
+      AlertComponent.open("could not obtain coupons page",err.error.message || err.message);
     })
   }
 
@@ -106,11 +107,12 @@ export class CouponsComponent implements OnInit {
         this.customerCoupons = customer.coupons;
         this.injectCoupons();
       }, (err)=>{
-        AlertComponent.open("CustomerDetails Error", err.error.message);
+        console.error("CustomerDetails Error", err);
+        AlertComponent.open("CustomerDetails Error",err.error.message || err.message);
       })
     }, (err) => {
-      console.log("purchaseCoupon error", err);
-      AlertComponent.open('Purchase Error', err.error.message);
+      console.error("purchaseCoupon error", err);
+      AlertComponent.open('Purchase Error',err.error.message || err.message);
     })
   }
 

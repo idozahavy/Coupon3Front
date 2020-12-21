@@ -8,8 +8,6 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
 import { AlertComponent } from './components/modals/alert/alert.component';
-import { CouponModalComponent } from './components/modals/coupon-modal/coupon-modal.component';
-import { LoadingComponent } from './components/modals/loading/loading.component';
 
 @Component({
   selector: 'app-root',

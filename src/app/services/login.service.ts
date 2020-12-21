@@ -11,22 +11,24 @@ import { debounceTime, filter, first, last } from 'rxjs/operators';
 export class LoginService {
   private LOGIN_URL = 'http://localhost:8080/login';
 
-  public loginToken: LoginToken;
+  private _loginToken: LoginToken;
+  get loginToken() { return this._loginToken};
+  set loginToken(value: LoginToken) { 
+    this._loginToken = value;
+    window.localStorage.setItem("coupons3-tkn",JSON.stringify(value));
+  }
+
+  deleteLoginToken() {
+    this._loginToken = null;
+    window.localStorage.removeItem("coupons3-tkn");
+  }
 
   constructor(private server: HttpClient) {
-    this.loginToken = JSON.parse(window.localStorage.getItem("coupons3-tkn"));
+    this._loginToken = JSON.parse(window.localStorage.getItem("coupons3-tkn"));
   }
 
   public login(email: string, password: string): Observable<LoginToken> {
-    let ob = this.server.post<LoginToken>(this.LOGIN_URL, { email, password });
-    ob.subscribe(
-      (res) => {
-        this.loginToken = res;
-        window.localStorage.setItem("coupons3-tkn",JSON.stringify(res));
-      },
-      () => {}
-    );
-    return ob;
+    return this.server.post<LoginToken>(this.LOGIN_URL, { email, password });
   }
 
   public check(): Observable<boolean> {
@@ -38,10 +40,9 @@ export class LoginService {
       (sub) => {
         const subNext = () => {sub.next();sub.complete;};
         if (this.loginToken){
-          window.localStorage.removeItem("coupons3-tkn");
           const ob = this.server.delete<any>(this.LOGIN_URL)
           ob.subscribe(()=>{
-            this.loginToken = null;
+            this.deleteLoginToken();
             subNext();
           }, subNext);
         } else {

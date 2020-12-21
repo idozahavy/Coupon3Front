@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService, private router: Router, siteRouter: SiteRouterService) {
     if (loginService.loginToken) {
-      console.log("logged in");
       siteRouter.alreadyLoggedIn();
     }
   }
@@ -41,7 +40,6 @@ export class LoginComponent implements OnInit {
       .login(this.loginCred.email, this.loginCred.password)
       .subscribe(
         (res) => {
-          console.log("got token "+res.token);
           this.loginService.loginToken = res;
           this.router.navigate(['/'+res.clientType.toLowerCase()]);
         },
@@ -51,6 +49,7 @@ export class LoginComponent implements OnInit {
               this.subject.next("can not log you in, incorrect email/password");
               break;
             default:
+              console.error("Login error",err);
               this.subject.next(err.message);
           }
         }

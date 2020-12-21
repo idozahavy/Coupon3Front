@@ -62,7 +62,8 @@ export class AdminComponent implements OnInit {
       this.adminService.deleteCompany(company.id).subscribe(() => {
         this.companies = this.companies.filter((com) => com.id !== company.id);
       }, (err) => {
-        AlertComponent.open("Company deletion error",err.error);
+        console.error("Company deletion error",err);
+        AlertComponent.open("Company deletion error",err.error.message || err.message);
       });
     }
   }
@@ -73,10 +74,9 @@ export class AdminComponent implements OnInit {
       this.adminService.updateCompany(company).subscribe(()=>{
         this.getCompanies();
       }, (err)=>{
-        console.log(err);
-        AlertComponent.open("Company update error",err.error);
+        console.error("Company update error", err);
+        AlertComponent.open("Company update error",err.error.message || err.message);
       });
-      console.log("updated company",company);
     });
     // maybe will make an error if component cant load fast enough
     companyModal.componentInstance.setCompany(company, ActionType.Update);
@@ -88,8 +88,8 @@ export class AdminComponent implements OnInit {
       this.adminService.addCompany(company).subscribe(()=>{
         this.getCompanies();
       }, (err)=>{
-        console.log(err);
-        AlertComponent.open("Company creation error",err.error);
+        console.error("Company creation error", err);
+        AlertComponent.open("Company creation error",err.error.message || err.message);
       })
     });
     companyModal.componentInstance.setCompany(null, ActionType.Create);
@@ -102,7 +102,8 @@ export class AdminComponent implements OnInit {
       this.adminService.deleteCustomer(customer.id).subscribe(() => {
         this.customers = this.customers.filter((cus) => customer.id !== cus.id);
       }, (err) => {
-        AlertComponent.open("Customer deletion error",err.error);
+        console.error("Customer deletion error", err);
+        AlertComponent.open("Customer deletion error",err.error.message || err.message);
       });
     }
   }
@@ -113,10 +114,9 @@ export class AdminComponent implements OnInit {
       this.adminService.updateCustomer(customer).subscribe(()=>{
         this.getCustomers();
       }, (err)=>{
-        console.log(err);
-        AlertComponent.open("Customer update error",err.error);
+        console.error("Customer update error", err);
+        AlertComponent.open("Customer update error",err.error.message || err.message);
       });
-      console.log("updated customer",customer);
     });
     // maybe will make an error if component cant load fast enough
     customerModal.componentInstance.setCustomer(customer, ActionType.Update);
@@ -128,8 +128,8 @@ export class AdminComponent implements OnInit {
       this.adminService.addCustomer(customer).subscribe(()=>{
         this.getCustomers();
       }, (err)=>{
-        console.log(err);
-        AlertComponent.open("Customer creation error",err.error);
+        console.error("Customer creation error",err);
+        AlertComponent.open("Customer creation error",err.error.message || err.message);
       })
     });
     customerModal.componentInstance.setCustomer(null, ActionType.Create);

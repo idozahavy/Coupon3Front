@@ -20,7 +20,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CouponsModalComponent } from './components/modals/coupons-modal/coupons-modal.component';
 import { CouponModalComponent } from './components/modals/coupon-modal/coupon-modal.component';
 import { CouponsComponent } from './components/coupons/coupons.component';
-import { LoadingComponent } from './components/modals/loading/loading.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
@@ -38,7 +37,6 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     CouponsModalComponent,
     CouponModalComponent,
     CouponsComponent,
-    LoadingComponent,
     WelcomeComponent,
   ],
   imports: [
